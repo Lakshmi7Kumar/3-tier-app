@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  # Frontend Layer
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:5173"
+    depends_on:
+      - backend
+
+  # Backend Layer
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://database:27017/testdb
+    depends_on:
+      - database
+  # Database Layer
+  database:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
